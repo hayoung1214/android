@@ -1,7 +1,8 @@
-//문자 받아온거 flask 서버에 보내는 코드
+//문자 받아온거 flask 서버에 보내는 코드 (post)
 package com.example.kbapp;
 
 import android.content.ContentValues;
+import android.os.Build;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -14,13 +15,19 @@ import java.net.URL;
 import org.json.JSONException;
 import org.json.JSONObject;
 import android.util.Log;
+import java.io.InputStream;
+
+import androidx.annotation.RequiresApi;
+
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 //import static com.group6.myapplication.MainActivity.email;
 //import static com.group6.myapplication.MainActivity.password;
 
 public class RequestHttpURLConnection {
-    private static final String TAG = "RequestHttpURLConnection";
+    private static final String TAG2 = "RequestHttpURLConnection";
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public String request(String _url, String _params){
 
         // HttpURLConnection 참조 변수.
@@ -84,9 +91,9 @@ public class RequestHttpURLConnection {
                 // [2-3]. 연결 요청 확인.
                 // 실패 시 null을 리턴하고 메서드를 종료.
 
-                if (urlConn.getResponseCode() != HttpURLConnection.HTTP_OK)
+                if (urlConn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
                     return null;
-
+                }
                 // [2-4]. 읽어온 결과물 리턴.
                 // 요청한 URL의 출력물을 BufferedReader로 받는다.
                 BufferedReader reader = new BufferedReader(new InputStreamReader(urlConn.getInputStream(), "UTF-8"));
@@ -101,6 +108,7 @@ public class RequestHttpURLConnection {
                 }
 
                 return page;
+
             } catch (MalformedURLException e) { // for URL.
                 e.printStackTrace();
             } catch (IOException e) { // for openConnection().

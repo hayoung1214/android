@@ -3,15 +3,23 @@ package com.example.kbapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class SmsDisplayActivity extends AppCompatActivity {
     //객체 선언
     Button btnTitle, btnClose;
     TextView tvMsg;
+    public static TextView tv_outPut ;
+
+    private static final String TAG3 = "SmsDisplayActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,6 +29,7 @@ public class SmsDisplayActivity extends AppCompatActivity {
         tvMsg = findViewById(R.id.tvMsg);
         btnTitle = findViewById(R.id.btnTitle);
         btnClose = findViewById(R.id.btnClose);
+        tv_outPut = findViewById(R.id.tv_outPut);
 
         //btnClose 기능 추가 : 창 닫기
         btnClose.setOnClickListener(new View.OnClickListener() {
@@ -49,11 +58,54 @@ public class SmsDisplayActivity extends AppCompatActivity {
         String sender = displayIntent.getStringExtra("sender");
         String receivedDate = displayIntent.getStringExtra("receivedDate");
         String contents = displayIntent.getStringExtra("contents");
+        String s = displayIntent.getStringExtra("s");
 
         //보낸 사람이 있으면
         if(sender != null) {
-            btnTitle.setText("[발신자 번호] : "+ sender );
+            btnTitle.setText("발신자 번호 : "+ sender );
             tvMsg.setText("[" + receivedDate + "]\n" + contents);
+
+        }
+    }
+
+    public static class NetworkTask extends AsyncTask<Void, Void, String> {
+        private String url;
+        private String values;
+
+        public NetworkTask(String url, String values) {
+            this.url = url;
+            this.values = values;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String result; // 요청 결과를 저장할 변수.
+            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
+            result = requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            String result_message="";
+            //doInBackground()로 부터 리턴된 값이 onPostExecute()의 매개변수로 넘어오므로 s를 출력한다.
+//            tv_outPut.setText(s); //flask 에서 모델 결과 받아온 거 보여주는 부분
+
+
+            try {
+                JSONObject jsonObj = new JSONObject(s);
+                result_message = jsonObj.getString("message");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+            Log.d(TAG3, "onPostExecute: tv_outPut: " + result_message);
+            tv_outPut.setText(result_message);
+
+
         }
     }
 }

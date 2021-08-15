@@ -8,9 +8,11 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+//    public TextView tv_outPut = findViewById(R.id.tv_outPut); ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +20,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         checkDangerousPermissions();
+//        tv_outPut.setText("");
     }
+//    public void set_tv_outPut(TextView tv_outPut){
+//        this.tv_outPut = tv_outPut;
+//    }
+//    public TextView get_tv_outPut(){
+//        return tv_outPut;
+//    }
 
     //위험 권한 체크
     //manifest와 java에 둘 다 권한 허가받는 코드를 작성한다.
