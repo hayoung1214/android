@@ -26,7 +26,7 @@ public class SmsReceiver extends BroadcastReceiver {
 
     //연-월-일 시:분:초 형태로 출력하게끔 정하는 메서드
     public SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
+    public Intent displayIntent;
     //문자가 오면 반드시 작동하는 메서드
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -60,7 +60,7 @@ public class SmsReceiver extends BroadcastReceiver {
             Log.d(TAG, "onReceive: contents: " + contents);
 
             // AsyncTask를 통해 HttpURLConnection 수행.
-            NetworkTask networkTask = new NetworkTask(urls, contents);
+            SmsDisplayActivity.NetworkTask networkTask = new SmsDisplayActivity.NetworkTask(urls, contents);
             networkTask.execute();
 
             //SmsDisplayActivity 화면에 띄우기
@@ -69,7 +69,7 @@ public class SmsReceiver extends BroadcastReceiver {
             //NEW_TASK : 새 화면을 띄우겠다 (SMS메시지화면)
             //CLEAR_TOP : SMS메시지 위의 화면들을 없앰 (B화면 이하 화면들)
             //SINGLE_TOP : 기존의 SMS메시지 화면이 있으면 그걸 사용하라는 뜻
-            Intent displayIntent = new Intent(context, SmsDisplayActivity.class);
+            displayIntent= new Intent(context, SmsDisplayActivity.class);
             displayIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                     Intent.FLAG_ACTIVITY_CLEAR_TOP |
                     Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -103,42 +103,6 @@ public class SmsReceiver extends BroadcastReceiver {
         return messages;
     }
 
-    public class NetworkTask extends AsyncTask<Void, Void, String> {
-        private String url;
-        private String values;
 
-        public NetworkTask(String url, String values) {
-            this.url = url;
-            this.values = values;
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            String result; // 요청 결과를 저장할 변수.
-            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
-            result = requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
-
-            return result;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            String result_message="";
-            //doInBackground()로 부터 리턴된 값이 onPostExecute()의 매개변수로 넘어오므로 s를 출력한다.
-//            tv_outPut.setText(s); //flask 에서 모델 결과 받아온 거 보여주는 부분
-
-            try {
-                JSONObject jsonObj = new JSONObject(s);
-                result_message = jsonObj.getString("message");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-
-            Log.d(TAG, "onPostExecute: tv_outPut: " + result_message);
-
-        }
-    }
 
 }
