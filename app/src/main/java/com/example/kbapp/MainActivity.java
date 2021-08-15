@@ -1,3 +1,4 @@
+//어플 틀자마자 보이는 화면 부분 코드 권환 확인해주는 기능 담김
 package com.example.kbapp;
 
 import androidx.appcompat.app.AppCompatActivity;

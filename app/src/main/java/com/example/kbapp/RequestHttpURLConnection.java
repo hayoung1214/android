@@ -1,3 +1,4 @@
+//문자 받아온거 flask 서버에 보내는 코드
 package com.example.kbapp;
 
 import android.content.ContentValues;

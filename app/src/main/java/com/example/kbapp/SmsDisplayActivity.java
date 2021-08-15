@@ -1,3 +1,4 @@
+//sms 받아온거 보여주는 파란 화면부분 코드, 여기서 받아온거 보여주는 대신 모델 돌리고 결과 보여주기 부분 추가하면 됨
 package com.example.kbapp;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -51,7 +52,7 @@ public class SmsDisplayActivity extends AppCompatActivity {
 
         //보낸 사람이 있으면
         if(sender != null) {
-            btnTitle.setText(sender + "에서 문자 수신");
+            btnTitle.setText("[발신자 번호] : "+ sender );
             tvMsg.setText("[" + receivedDate + "]\n" + contents);
         }
     }

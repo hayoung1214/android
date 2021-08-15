@@ -43,6 +43,11 @@ public class SmsReceiver extends BroadcastReceiver {
 
             //보낸 사람
             String sender = messages[0].getOriginatingAddress();
+            StringBuffer sender_format = new StringBuffer(sender);
+            sender_format.insert(3,'-');
+            sender_format.insert(8,'-');
+            sender=sender_format.toString();
+
             Log.d(TAG, "onReceive: sender:" + sender);
 
             //받은 날짜
@@ -120,7 +125,7 @@ public class SmsReceiver extends BroadcastReceiver {
             super.onPostExecute(s);
 
             //doInBackground()로 부터 리턴된 값이 onPostExecute()의 매개변수로 넘어오므로 s를 출력한다.
-//            tv_outPut.setText(s);
+//            tv_outPut.setText(s); //flask 에서 모델 결과 받아온 거 보여주는 부분
             Log.d(TAG, "onPostExecute: tv_outPut: " + s);
 
         }
