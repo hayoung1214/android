@@ -10,7 +10,8 @@ import android.util.Log;
 import android.os.AsyncTask;
 import android.content.ContentValues;
 
-
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -123,10 +124,19 @@ public class SmsReceiver extends BroadcastReceiver {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-
+            String result_message="";
             //doInBackground()로 부터 리턴된 값이 onPostExecute()의 매개변수로 넘어오므로 s를 출력한다.
 //            tv_outPut.setText(s); //flask 에서 모델 결과 받아온 거 보여주는 부분
-            Log.d(TAG, "onPostExecute: tv_outPut: " + s);
+
+            try {
+                JSONObject jsonObj = new JSONObject(s);
+                result_message = jsonObj.getString("message");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+            Log.d(TAG, "onPostExecute: tv_outPut: " + result_message);
 
         }
     }

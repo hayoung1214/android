@@ -52,7 +52,7 @@ public class SmsDisplayActivity extends AppCompatActivity {
 
         //보낸 사람이 있으면
         if(sender != null) {
-            btnTitle.setText("[발신자 번호] : "+ sender );
+            btnTitle.setText("발신자 번호 : "+ sender );
             tvMsg.setText("[" + receivedDate + "]\n" + contents);
         }
     }
