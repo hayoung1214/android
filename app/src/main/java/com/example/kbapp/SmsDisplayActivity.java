@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.app.PendingIntent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,8 +28,7 @@ public class SmsDisplayActivity extends AppCompatActivity {
     Button btnTitle, btnClose;
     TextView tvMsg;
     public static TextView tv_outPut ;
-
-
+    public static PendingIntent pendingIntent;
     private static final String TAG3 = "SmsDisplayActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +54,8 @@ public class SmsDisplayActivity extends AppCompatActivity {
         //인텐트 받기
         Intent displayIntent = getIntent();
         processIntent(displayIntent);
+        pendingIntent = PendingIntent.getActivity(this, 0, displayIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
 //
 //        resultIntent= new Intent(this, MainActivity.class);
 //        resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
@@ -110,11 +112,13 @@ public class SmsDisplayActivity extends AppCompatActivity {
         builder.setSmallIcon(android.R.drawable.ic_menu_view);
         //상태바를 드래그하여 아래로 내리면 보이는
         //알림창(확장 상태바)의 설정
-
+        builder.setTicker("setTicker");
         builder.setContentTitle("Title");//알림창 제목
         builder.setContentText(str);//알림창 내용
         builder.setCategory(Notification.CATEGORY_MESSAGE);
         builder.setPriority(Notification.PRIORITY_HIGH);
+        builder.setDefaults(Notification.DEFAULT_ALL);
+        builder.setContentIntent(pendingIntent);
         //builder.setVisibility(Notification.VISIBILITY_PRIVATE);
         //알림창의 큰 이미지
         //Bitmap bm= BitmapFactory.decodeResource(getResources(),R.drawable.gametitle_09);
