@@ -1,5 +1,8 @@
 package com.example.kbapp;
 
+import static com.example.kbapp.SmsDisplayActivity.NotificationActivity;
+import static com.example.kbapp.SmsDisplayActivity.tv_outPut;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +12,8 @@ import android.telephony.SmsMessage;
 import android.util.Log;
 import android.os.AsyncTask;
 import android.content.ContentValues;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,16 +25,70 @@ import java.util.Date;
 public class SmsReceiver extends BroadcastReceiver {
 
 
-    private static final String TAG = "MyReceiver";
+    public String TAG = "MyReceiver";
 
-    private static final String urls = "http://10.0.2.2:5000/api/v1/message/detect";
+    public String urls = "http://10.0.2.2:5000/api/v1/message/detect";
 
     //연-월-일 시:분:초 형태로 출력하게끔 정하는 메서드
     public SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public Intent displayIntent;
     //문자가 오면 반드시 작동하는 메서드
+
+
+
     @Override
     public void onReceive(Context context, Intent intent) {
+
+        class NetworkTask extends AsyncTask<Void, Void, String> {
+            public String url;
+            public String values;
+            private Context ctx;
+
+            public NetworkTask(String url, String values) {
+                this.url = url;
+                this.values = values;
+            }
+
+            @Override
+            protected String doInBackground(Void... params) {
+                String result; // 요청 결과를 저장할 변수.
+                RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
+                result = requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
+
+                return result;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+
+                String result_message="";
+                //doInBackground()로 부터 리턴된 값이 onPostExecute()의 매개변수로 넘어오므로 s를 출력한다.
+//            tv_outPut.setText(s); //flask 에서 모델 결과 받아온 거 보여주는 부분
+
+
+                try {
+                    JSONObject jsonObj = new JSONObject(s);
+                    result_message = jsonObj.getString("result");
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+                Log.d(TAG, "onPostExecute: tv_outPut: " + result_message);
+                tv_outPut.setText(result_message);
+
+
+
+                NotificationActivity(context,result_message);
+
+
+            }
+
+
+        }
+
         Log.d(TAG, "onReceive: 호출됨");
 
         //intent의 내용을 bundle에 넣는다.
@@ -60,9 +119,9 @@ public class SmsReceiver extends BroadcastReceiver {
             Log.d(TAG, "onReceive: contents: " + contents);
 
             // AsyncTask를 통해 HttpURLConnection 수행.
-            SmsDisplayActivity.NetworkTask networkTask = new SmsDisplayActivity.NetworkTask(urls, contents);
+            NetworkTask networkTask = new NetworkTask(urls, contents);
             networkTask.execute();
-
+            Log.d(TAG, "networkTask!!");
             //SmsDisplayActivity 화면에 띄우기
             //Flag : 속성을 부여하는 키워드
             //예시 : M화면 → A화면 → SMS메시지화면 → B화면
@@ -84,7 +143,10 @@ public class SmsReceiver extends BroadcastReceiver {
 
 
         }
+
     }
+
+
 
     private SmsMessage[] parseSmsMessage(Bundle bundle) {
         //pdus에 메세지가 담겨있다.

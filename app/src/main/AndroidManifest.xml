@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KbApp">
         <activity android:name=".SmsDisplayActivity"></activity>
-
+        <activity android:name=".RequestHttpURLConnection"></activity>
         <receiver
             android:name=".SmsReceiver"
             android:enabled="true"
@@ -37,7 +37,8 @@
         </activity>
 
 
-<!--        <receiver-->
+
+        <!--        <receiver-->
 <!--            android:name=".SmsReceiver"-->
 <!--            android:enabled="true"-->
 <!--            android:exported="true">-->
