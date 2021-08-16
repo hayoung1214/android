@@ -104,7 +104,7 @@ public class SmsDisplayActivity extends AppCompatActivity {
 
             Log.d(TAG3, "onPostExecute: tv_outPut: " + result_message);
             tv_outPut.setText(result_message);
-
+            //new NotificationActivity();
 
         }
     }
