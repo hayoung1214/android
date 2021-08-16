@@ -96,7 +96,7 @@ public class SmsDisplayActivity extends AppCompatActivity {
 
             try {
                 JSONObject jsonObj = new JSONObject(s);
-                result_message = jsonObj.getString("message");
+                result_message = jsonObj.getString("result");
             } catch (JSONException e) {
                 e.printStackTrace();
             }

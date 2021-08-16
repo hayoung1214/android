@@ -63,8 +63,8 @@ public class RequestHttpURLConnection {
 
 
                 // [2-1]. urlConn 설정.
-                urlConn.setConnectTimeout(15000);
-                urlConn.setReadTimeout(5000);
+                urlConn.setConnectTimeout(150000);
+                urlConn.setReadTimeout(50000);
                 urlConn.setDoInput(true);
                 urlConn.setDoOutput(true);
                 urlConn.setUseCaches(false);
