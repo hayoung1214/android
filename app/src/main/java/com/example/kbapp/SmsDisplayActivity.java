@@ -56,16 +56,7 @@ public class SmsDisplayActivity extends AppCompatActivity {
         processIntent(displayIntent);
         pendingIntent = PendingIntent.getActivity(this, 0, displayIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-//
-//        resultIntent= new Intent(this, MainActivity.class);
-//        resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-//                Intent.FLAG_ACTIVITY_CLEAR_TOP |
-//                Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//
-//        //값을 추가로 보냄
-//        resultIntent.putExtra("result_txt", (Parcelable) tv_outPut);
-//        Log.d(TAG3, "result_txt : " + tv_outPut);
-//        this.startActivity(resultIntent);
+
     }
 
     public static void NotificationActivity(Context ctx,String str) {
@@ -80,15 +71,6 @@ public class SmsDisplayActivity extends AppCompatActivity {
         //PendingIntent contentIntent = PendingIntent.getActivity(this,0,notificationIntent,PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(ctx);
 
-//        builder.setContentTitle("setContentTitle")
-//                .setContentText("setContentText")
-//                .setTicker("setTicker")
-//                .setSmallIcon(R.mipmap.ic_launcher)
-//                //.setLargeIcon(BitmapFactory.decodeResource(res,R.mipmap.ic_launcher))
-//                .setContentIntent(contentIntent)
-//                .setAutoCancel(true)
-//                .setWhen(System.currentTimeMillis())
-//                .setDefaults(Notification.DEFAULT_ALL);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O){
             String channelID="channel_01";
             String channelName="MyChannel01";
@@ -104,9 +86,6 @@ public class SmsDisplayActivity extends AppCompatActivity {
             builder=new NotificationCompat.Builder(ctx, channelID);
 
             Log.d(TAG3, "Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP");
-//            builder.setCategory(Notification.CATEGORY_MESSAGE)
-//                    .setPriority(Notification.PRIORITY_HIGH);
-//                    //.setVisibility(Notification.VISIBILITY_PUBLIC);
         }
         //건축가에게 원하는 알림의 설정작업
         builder.setSmallIcon(android.R.drawable.ic_menu_view);
@@ -133,11 +112,7 @@ public class SmsDisplayActivity extends AppCompatActivity {
         //알림 요청시에 사용한 번호를 알림제거 할 수 있음.
         //notificationManager.cancel(1);
 
-//        NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-//        nm.notify(1234,builder.build());
     }
-
-
 
     //새 문자를 받을때(이미 창이 만들어져 있어서 onCreate가 작동을 안할 때, 새 Intent를 받을 때) 작동
     //매개 변수에는 자동으로 갱신되는 인텐트가 들어간다.

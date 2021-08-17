@@ -32,8 +32,8 @@ import android.view.View;
 import android.app.NotificationChannel;
 
 public class MainActivity extends AppCompatActivity {
-    public static TextView tv_outPut ;
-    Button btn_noti =null;
+
+
     private static final String TAG4 = "MainActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,15 +41,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         checkDangerousPermissions();
-        btn_noti=(Button) findViewById(R.id.btn_noti);
-        btn_noti.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View arg0){
-               //NotificationActivity(tv_outPut);
-            }
-        });
-        //NotificationActivity();
-//        tv_outPut.setText("");
+
     }
 
 

@@ -24,7 +24,6 @@ import java.util.Date;
 //패키지 우클릭 - New - Other -  Broadcast Receiver
 public class SmsReceiver extends BroadcastReceiver {
 
-
     public String TAG = "MyReceiver";
 
     public String urls = "http://10.0.2.2:5000/api/v1/message/detect";
@@ -33,8 +32,6 @@ public class SmsReceiver extends BroadcastReceiver {
     public SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public Intent displayIntent;
     //문자가 오면 반드시 작동하는 메서드
-
-
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -64,7 +61,6 @@ public class SmsReceiver extends BroadcastReceiver {
 
                 String result_message="";
                 //doInBackground()로 부터 리턴된 값이 onPostExecute()의 매개변수로 넘어오므로 s를 출력한다.
-//            tv_outPut.setText(s); //flask 에서 모델 결과 받아온 거 보여주는 부분
 
 
                 try {
@@ -75,16 +71,12 @@ public class SmsReceiver extends BroadcastReceiver {
                     e.printStackTrace();
                 }
 
-
                 Log.d(TAG, "onPostExecute: tv_outPut: " + result_message);
-                //tv_outPut.setText(result_message);
 
                 displayIntent.putExtra("result_message", result_message);
                 context.startActivity(displayIntent);
 
-
                 NotificationActivity(context,result_message);
-
 
             }
 
