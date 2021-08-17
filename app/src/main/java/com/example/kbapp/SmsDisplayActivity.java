@@ -152,13 +152,13 @@ public class SmsDisplayActivity extends AppCompatActivity {
         String sender = displayIntent.getStringExtra("sender");
         String receivedDate = displayIntent.getStringExtra("receivedDate");
         String contents = displayIntent.getStringExtra("contents");
-
+        String result_message = displayIntent.getStringExtra("result_message");
 
         //보낸 사람이 있으면
         if(sender != null) {
             btnTitle.setText("발신자 번호 : "+ sender );
             tvMsg.setText("[" + receivedDate + "]\n" + contents);
-
+            tv_outPut.setText(result_message);
         }
 
     }

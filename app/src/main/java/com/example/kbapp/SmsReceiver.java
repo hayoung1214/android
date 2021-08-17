@@ -77,8 +77,10 @@ public class SmsReceiver extends BroadcastReceiver {
 
 
                 Log.d(TAG, "onPostExecute: tv_outPut: " + result_message);
-                tv_outPut.setText(result_message);
+                //tv_outPut.setText(result_message);
 
+                displayIntent.putExtra("result_message", result_message);
+                context.startActivity(displayIntent);
 
 
                 NotificationActivity(context,result_message);
