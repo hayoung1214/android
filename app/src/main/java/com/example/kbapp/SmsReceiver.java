@@ -109,7 +109,14 @@ public class SmsReceiver extends BroadcastReceiver {
             Log.d(TAG, "onReceive: receivedDate: " + receivedDate);
 
             //내용
-            String contents = messages[0].getMessageBody();
+            String contents="";
+            for (int i = 0; i < messages.length; i++) {
+                contents = contents+ messages[i].getMessageBody();
+
+
+            }
+
+
             Log.d(TAG, "onReceive: contents: " + contents);
 
             // AsyncTask를 통해 HttpURLConnection 수행.
