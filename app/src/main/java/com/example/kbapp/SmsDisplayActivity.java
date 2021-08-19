@@ -133,8 +133,12 @@ public class SmsDisplayActivity extends AppCompatActivity {
         if(sender != null) {
             btnTitle.setText("발신자 번호 : "+ sender );
             tvMsg.setText("[" + receivedDate + "]\n" + contents);
-            tv_outPut.setText(result_message);
+            tv_outPut.setText("검출 결과 : " + "로딩중입니다...");
+            if(result_message !=null){
+                tv_outPut.setText("검출 결과 : " + result_message);
+            }
         }
+
 
     }
 

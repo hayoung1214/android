@@ -138,7 +138,7 @@ public class SmsReceiver extends BroadcastReceiver {
             displayIntent.putExtra("sender", sender);
             displayIntent.putExtra("receivedDate", dateFormat.format(receivedDate));
             displayIntent.putExtra("contents", contents);
-            context.startActivity(displayIntent);
+            //context.startActivity(displayIntent);
 
 
 
