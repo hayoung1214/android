@@ -44,7 +44,7 @@ android:orientation="vertical"
 	android:textStyle="bold"
 	android:padding="20dp"
 	android:textColor="#FFFFFFFF"
-	android:text="출력 공간"/>
+	android:text="검출 결과가 곧 표시됩니다..."/>
          
 </LinearLayout>
     </ScrollView>

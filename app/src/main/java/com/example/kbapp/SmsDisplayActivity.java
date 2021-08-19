@@ -1,14 +1,24 @@
 //sms 받아온거 보여주는 파란 화면부분 코드, 여기서 받아온거 보여주는 대신 모델 돌리고 결과 보여주기 부분 추가하면 됨
 package com.example.kbapp;
 
+
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.app.PendingIntent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,10 +28,11 @@ public class SmsDisplayActivity extends AppCompatActivity {
     Button btnTitle, btnClose;
     TextView tvMsg;
     public static TextView tv_outPut ;
-
+    public static PendingIntent pendingIntent;
     private static final String TAG3 = "SmsDisplayActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sms_display);
 
@@ -43,6 +54,64 @@ public class SmsDisplayActivity extends AppCompatActivity {
         //인텐트 받기
         Intent displayIntent = getIntent();
         processIntent(displayIntent);
+        pendingIntent = PendingIntent.getActivity(this, 0, displayIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+    }
+
+    public static void NotificationActivity(Context ctx,String str) {
+
+        //Resources res = getResources();
+        //알림(Notification)을 관리하는 관리자 객체를 운영체제(Context)로부터 소환하기
+        NotificationManager notificationManager=(NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        //Intent notificationIntent = new Intent(this,NotificationActivity.class);
+        //notificationIntent.putExtra("not_Id",9999);
+
+        //PendingIntent contentIntent = PendingIntent.getActivity(this,0,notificationIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(ctx);
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O){
+            String channelID="channel_01";
+            String channelName="MyChannel01";
+            //알림채널 객체 만들기
+            NotificationChannel channel= null;
+            channel = new NotificationChannel(channelID,channelName, NotificationManager.IMPORTANCE_HIGH);
+
+
+            //알림매니저에게 채널 객체의 생성을 요청
+            notificationManager.createNotificationChannel(channel);
+
+            //알림건축가 객체 생성
+            builder=new NotificationCompat.Builder(ctx, channelID);
+
+            Log.d(TAG3, "Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP");
+        }
+        //건축가에게 원하는 알림의 설정작업
+        builder.setSmallIcon(android.R.drawable.ic_menu_view);
+        //상태바를 드래그하여 아래로 내리면 보이는
+        //알림창(확장 상태바)의 설정
+        builder.setTicker("setTicker");
+        builder.setContentTitle("Title");//알림창 제목
+        builder.setContentText(str);//알림창 내용
+        builder.setCategory(Notification.CATEGORY_MESSAGE);
+        builder.setPriority(Notification.PRIORITY_HIGH);
+        builder.setDefaults(Notification.DEFAULT_ALL);
+        builder.setContentIntent(pendingIntent);
+        //builder.setVisibility(Notification.VISIBILITY_PRIVATE);
+        //알림창의 큰 이미지
+        //Bitmap bm= BitmapFactory.decodeResource(getResources(),R.drawable.gametitle_09);
+        //builder.setLargeIcon(bm);//매개변수가 Bitmap을 줘야한다.
+
+        //건축가에게 알림 객체 생성하도록
+        Notification notification=builder.build();
+
+        //알림매니저에게 알림(Notify) 요청
+        notificationManager.notify(1, notification);
+
+        //알림 요청시에 사용한 번호를 알림제거 할 수 있음.
+        //notificationManager.cancel(1);
+
     }
 
     //새 문자를 받을때(이미 창이 만들어져 있어서 onCreate가 작동을 안할 때, 새 Intent를 받을 때) 작동
@@ -58,54 +127,20 @@ public class SmsDisplayActivity extends AppCompatActivity {
         String sender = displayIntent.getStringExtra("sender");
         String receivedDate = displayIntent.getStringExtra("receivedDate");
         String contents = displayIntent.getStringExtra("contents");
-        String s = displayIntent.getStringExtra("s");
+        String result_message = displayIntent.getStringExtra("result_message");
 
         //보낸 사람이 있으면
         if(sender != null) {
             btnTitle.setText("발신자 번호 : "+ sender );
             tvMsg.setText("[" + receivedDate + "]\n" + contents);
-
-        }
-    }
-
-    public static class NetworkTask extends AsyncTask<Void, Void, String> {
-        private String url;
-        private String values;
-
-        public NetworkTask(String url, String values) {
-            this.url = url;
-            this.values = values;
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            String result; // 요청 결과를 저장할 변수.
-            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
-            result = requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
-
-            return result;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            String result_message="";
-            //doInBackground()로 부터 리턴된 값이 onPostExecute()의 매개변수로 넘어오므로 s를 출력한다.
-//            tv_outPut.setText(s); //flask 에서 모델 결과 받아온 거 보여주는 부분
-
-
-            try {
-                JSONObject jsonObj = new JSONObject(s);
-                result_message = jsonObj.getString("message");
-            } catch (JSONException e) {
-                e.printStackTrace();
+            tv_outPut.setText("검출 결과 : " + "로딩중입니다...");
+            if(result_message !=null){
+                tv_outPut.setText("검출 결과 : " + result_message);
             }
-
-
-            Log.d(TAG3, "onPostExecute: tv_outPut: " + result_message);
-            tv_outPut.setText(result_message);
-
-
         }
+
+
     }
+
+
 }

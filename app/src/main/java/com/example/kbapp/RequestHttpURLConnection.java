@@ -18,13 +18,14 @@ import android.util.Log;
 import java.io.InputStream;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 //import static com.group6.myapplication.MainActivity.email;
 //import static com.group6.myapplication.MainActivity.password;
 
-public class RequestHttpURLConnection {
+public class RequestHttpURLConnection  {
     private static final String TAG2 = "RequestHttpURLConnection";
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -63,8 +64,8 @@ public class RequestHttpURLConnection {
 
 
                 // [2-1]. urlConn 설정.
-                urlConn.setConnectTimeout(15000);
-                urlConn.setReadTimeout(5000);
+                urlConn.setConnectTimeout(1500000);
+                urlConn.setReadTimeout(500000);
                 urlConn.setDoInput(true);
                 urlConn.setDoOutput(true);
                 urlConn.setUseCaches(false);
@@ -124,6 +125,8 @@ public class RequestHttpURLConnection {
 
         return null;
     }
+
+
 }
 
 

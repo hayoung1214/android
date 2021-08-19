@@ -6,28 +6,44 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
-//    public TextView tv_outPut = findViewById(R.id.tv_outPut); ;
+import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.BitmapFactory;
+import android.graphics.Bitmap;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import android.view.View;
+import android.widget.Button;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.app.NotificationChannel;
 
+public class MainActivity extends AppCompatActivity {
+
+
+    private static final String TAG4 = "MainActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         checkDangerousPermissions();
-//        tv_outPut.setText("");
+
     }
-//    public void set_tv_outPut(TextView tv_outPut){
-//        this.tv_outPut = tv_outPut;
-//    }
-//    public TextView get_tv_outPut(){
-//        return tv_outPut;
-//    }
+
 
     //위험 권한 체크
     //manifest와 java에 둘 다 권한 허가받는 코드를 작성한다.
