@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.telephony.SmsMessage;
 import android.util.Log;
 import android.os.AsyncTask;
@@ -76,7 +77,16 @@ public class SmsReceiver extends BroadcastReceiver {
                 displayIntent.putExtra("result_message", result_message);
                 context.startActivity(displayIntent);
 
-                NotificationActivity(context,result_message);
+                Handler handler = new Handler();
+                String finalResult_message = result_message;
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        NotificationActivity(context, finalResult_message);
+                    }
+                }, 3000); //딜레이 타임 조절
+
+
 
             }
 

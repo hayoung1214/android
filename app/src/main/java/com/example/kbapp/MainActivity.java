@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        checkDangerousPermissions();
+        checkDangerousPermissions(); //어플 삭제하고 다시 받으면 될듯
 
     }
 

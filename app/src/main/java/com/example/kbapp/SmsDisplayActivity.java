@@ -55,7 +55,7 @@ public class SmsDisplayActivity extends AppCompatActivity {
         Intent displayIntent = getIntent();
         processIntent(displayIntent);
         pendingIntent = PendingIntent.getActivity(this, 0, displayIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
+        Log.d(TAG3, "onCreate pendingIntent : "+pendingIntent);
 
     }
 
@@ -63,30 +63,32 @@ public class SmsDisplayActivity extends AppCompatActivity {
 
         //Resources res = getResources();
         //알림(Notification)을 관리하는 관리자 객체를 운영체제(Context)로부터 소환하기
-        NotificationManager notificationManager=(NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
 
         //Intent notificationIntent = new Intent(this,NotificationActivity.class);
         //notificationIntent.putExtra("not_Id",9999);
 
         //PendingIntent contentIntent = PendingIntent.getActivity(this,0,notificationIntent,PendingIntent.FLAG_UPDATE_CURRENT);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(ctx);
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O){
-            String channelID="channel_01";
-            String channelName="MyChannel01";
+
+        String channelID = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            channelID = "channel_01";
+            String channelName = "MyChannel01";
             //알림채널 객체 만들기
-            NotificationChannel channel= null;
-            channel = new NotificationChannel(channelID,channelName, NotificationManager.IMPORTANCE_HIGH);
+            NotificationChannel channel = null;
+            channel = new NotificationChannel(channelID, channelName, NotificationManager.IMPORTANCE_HIGH);
 
 
             //알림매니저에게 채널 객체의 생성을 요청
             notificationManager.createNotificationChannel(channel);
 
             //알림건축가 객체 생성
-            builder=new NotificationCompat.Builder(ctx, channelID);
 
-            Log.d(TAG3, "Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP");
         }
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(ctx, channelID);
+
+        Log.d(TAG3, "Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP");
         //건축가에게 원하는 알림의 설정작업
         builder.setSmallIcon(android.R.drawable.ic_menu_view);
         //상태바를 드래그하여 아래로 내리면 보이는
@@ -98,13 +100,14 @@ public class SmsDisplayActivity extends AppCompatActivity {
         builder.setPriority(Notification.PRIORITY_HIGH);
         builder.setDefaults(Notification.DEFAULT_ALL);
         builder.setContentIntent(pendingIntent);
+        Log.d(TAG3, "NotificationActivity pendingIntent : " + pendingIntent);
         //builder.setVisibility(Notification.VISIBILITY_PRIVATE);
         //알림창의 큰 이미지
         //Bitmap bm= BitmapFactory.decodeResource(getResources(),R.drawable.gametitle_09);
         //builder.setLargeIcon(bm);//매개변수가 Bitmap을 줘야한다.
 
         //건축가에게 알림 객체 생성하도록
-        Notification notification=builder.build();
+        Notification notification = builder.build();
 
         //알림매니저에게 알림(Notify) 요청
         notificationManager.notify(1, notification);
