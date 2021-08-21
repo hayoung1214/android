@@ -26,7 +26,7 @@ import java.util.Date;
 public class SmsReceiver extends BroadcastReceiver {
 
     public String TAG = "MyReceiver";
-
+    public String  sender ;
     public String urls = "http://10.0.2.2:5000/api/v1/message/detect";
 
     //연-월-일 시:분:초 형태로 출력하게끔 정하는 메서드
@@ -79,13 +79,14 @@ public class SmsReceiver extends BroadcastReceiver {
 
                 Handler handler = new Handler();
                 String finalResult_message = result_message;
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        NotificationActivity(context, finalResult_message);
-                    }
-                }, 3000); //딜레이 타임 조절
+//                handler.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        NotificationActivity(context, finalResult_message);
+//                    }
+//                }, 3000); //딜레이 타임 조절
 
+                NotificationActivity(context, finalResult_message, sender);
 
 
             }
@@ -106,7 +107,7 @@ public class SmsReceiver extends BroadcastReceiver {
             Log.d(TAG, "onReceive: SMS를 수신하였습니다");
 
             //보낸 사람
-            String sender = messages[0].getOriginatingAddress();
+            sender = messages[0].getOriginatingAddress();
             StringBuffer sender_format = new StringBuffer(sender);
             sender_format.insert(3,'-');
             sender_format.insert(8,'-');

@@ -2,7 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-android:orientation="vertical"
+    android:orientation="vertical"
     android:layout_height="match_parent">
 
     <Button
@@ -10,16 +10,18 @@ android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:textColor="#000000"
+        android:textStyle="bold"
         android:text="SMS 발신 번호"/>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-	android:orientation="vertical"
+        android:orientation="vertical"
         android:layout_below="@+id/btnTitle"
         android:layout_above="@+id/btnClose"
         android:layout_margin="10dp"
-        android:background="#ff222288">
+        android:background="#FFFFFFFF">
 	<LinearLayout
 	android:orientation="vertical"
 	android:id="@+id/layout"
@@ -32,9 +34,8 @@ android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="SMS 내용"
-            android:textStyle="bold"
             android:padding="20dp"
-            
+            android:background="#000000"
             android:textColor="#FFFFFFFF"/>
 
 	<TextView 
@@ -43,7 +44,7 @@ android:orientation="vertical"
 	android:layout_height="wrap_content"
 	android:textStyle="bold"
 	android:padding="20dp"
-	android:textColor="#FFFFFFFF"
+	android:textColor="#000000"
 	android:text="검출 결과가 곧 표시됩니다..."/>
          
 </LinearLayout>
@@ -53,6 +54,8 @@ android:orientation="vertical"
         android:id="@+id/btnClose"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="닫기"
+        android:textStyle="bold"
         android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

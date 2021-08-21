@@ -11,6 +11,8 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -59,7 +61,7 @@ public class SmsDisplayActivity extends AppCompatActivity {
 
     }
 
-    public static void NotificationActivity(Context ctx,String str) {
+    public static void NotificationActivity(Context ctx,String str, String sender) {
 
         //Resources res = getResources();
         //알림(Notification)을 관리하는 관리자 객체를 운영체제(Context)로부터 소환하기
@@ -94,17 +96,24 @@ public class SmsDisplayActivity extends AppCompatActivity {
         //상태바를 드래그하여 아래로 내리면 보이는
         //알림창(확장 상태바)의 설정
         builder.setTicker("setTicker");
-        builder.setContentTitle("Title");//알림창 제목
-        builder.setContentText(str);//알림창 내용
+        builder.setContentTitle("KaptureBee");//알림창 제목
+        //builder.setContentText(str+"의심. 보이스피싱을 주의하세요!");//알림창 내용
         builder.setCategory(Notification.CATEGORY_MESSAGE);
         builder.setPriority(Notification.PRIORITY_HIGH);
         builder.setDefaults(Notification.DEFAULT_ALL);
         builder.setContentIntent(pendingIntent);
         Log.d(TAG3, "NotificationActivity pendingIntent : " + pendingIntent);
+        NotificationCompat.BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle();
+        bigTextStyle.setSummaryText(sender+" 로부터 수신된 메세지" );
+
+        //bigTextStyle.setBigContentTitle("KaptureBee");
+
+        bigTextStyle.bigText(str+"이 의심됩니다. 보이스 피싱을 주의하세요!");
+        builder.setStyle(bigTextStyle);
         //builder.setVisibility(Notification.VISIBILITY_PRIVATE);
         //알림창의 큰 이미지
-        //Bitmap bm= BitmapFactory.decodeResource(getResources(),R.drawable.gametitle_09);
-        //builder.setLargeIcon(bm);//매개변수가 Bitmap을 줘야한다.
+        Bitmap bm= BitmapFactory.decodeResource(ctx.getResources(),R.drawable.bee);
+        builder.setLargeIcon(bm);//매개변수가 Bitmap을 줘야한다.
 
         //건축가에게 알림 객체 생성하도록
         Notification notification = builder.build();
