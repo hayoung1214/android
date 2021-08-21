@@ -86,7 +86,9 @@ public class SmsReceiver extends BroadcastReceiver {
 //                    }
 //                }, 3000); //딜레이 타임 조절
 
-                NotificationActivity(context, finalResult_message, sender);
+                if(!finalResult_message.equals("정상 말투")){
+                    NotificationActivity(context, finalResult_message, sender);
+                }
 
 
             }

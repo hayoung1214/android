@@ -101,7 +101,6 @@ public class SmsDisplayActivity extends AppCompatActivity {
         builder.setCategory(Notification.CATEGORY_MESSAGE);
         builder.setPriority(Notification.PRIORITY_HIGH);
         builder.setDefaults(Notification.DEFAULT_ALL);
-        builder.setContentIntent(pendingIntent);
         Log.d(TAG3, "NotificationActivity pendingIntent : " + pendingIntent);
         NotificationCompat.BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle();
         bigTextStyle.setSummaryText(sender+" 로부터 수신된 메세지" );
